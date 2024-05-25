@@ -108,8 +108,13 @@ const generateFooter = ({
 const generateSection = ({
   title = "",
   table = {
-    headers: [""],
-    data: [[""]],
+    columns: [
+      {
+        key: "",
+        title: "",
+      },
+    ],
+    data: [{}],
   },
 }) => {
   const docSection = `
@@ -118,25 +123,25 @@ const generateSection = ({
     <table>
       <thead>
         <tr>
-          ${table.headers
-            .map((header) => {
-              return `<th>${header}</th>`;
+          ${table.columns
+            .map((column) => {
+              return `<th>${column.title}</th>`;
             })
             .join(" ")}
         </tr>
       </thead>
       <tbody>
         ${table.data
-          .map((data) => {
+          .map((row) => {
             return `
-              <tr>
-                ${data
-                  .map((d) => {
-                    return `<td>${d}</td>`;
-                  })
-                  .join(" ")}
-              </tr>
-            `;
+                <tr>
+                  ${table.columns
+                    .map((column) => {
+                      return `<td>${row[column.key]}</td>`;
+                    })
+                    .join(" ")}
+                </tr>
+              `;
           })
           .join(" ")}
       </tbody>
@@ -254,10 +259,9 @@ const pagesFormatter = () => {
     }
   };
 
-  generatePages(pages, [children[1], children[2]], footerHeight);
+  const childrenArray = Array.from(children).slice(1, children.length - 2);
+  generatePages(pages, childrenArray, footerHeight);
   pages[pages.length - 1].appendChild(cloneElement(footer));
-
-  console.log(pages.length, pages);
 
   pages.forEach((page, index) => {
     const pageNumber = index + 1;
@@ -318,98 +322,98 @@ const generateDocument = ({
   pagesFormatter();
 };
 
-generateDocument({
-  header: [
-    {
-      title: "Document Title",
-      docMetaData: ["Date: 12-12-2021", "Author: John Doe"],
-    },
-    {
-      rightMetaTable: [
-        ["Right Meta 1", "Meta Data 1"],
-        ["Right Meta 2", "Meta Data 2"],
-      ],
-      leftMetaTable: [
-        ["Left Meta 1", "Meta Data 1"],
-        ["Left Meta 2", "Meta Data 2"],
-      ],
-    },
-  ],
-  body: [
-    {
-      title: "Section 1",
-      table: {
-        headers: ["Header 1", "Header 2", "Header 3"],
-        data: [
-          ["Data 1", "Data 2", "Data 3"],
-          ["Data 1", "Data 2", "Data 3"],
-          ["Data 1", "Data 2", "Data 3"],
-          ["Data 1", "Data 2", "Data 3"],
-          ["Data 1", "Data 2", "Data 3"],
-          ["Data 1", "Data 2", "Data 3"],
-          ["Data 1", "Data 2", "Data 3"],
-          ["Data 1", "Data 2", "Data 3"],
-          ["Data 1", "Data 2", "Data 3"],
-          ["Data 1", "Data 2", "Data 3"],
-          ["Data 1", "Data 2", "Data 3"],
-          ["Data 1", "Data 2", "Data 3"],
-          ["Data 1", "Data 2", "Data 3"],
-          ["Data 1", "Data 2", "Data 3"],
-          ["Data 1", "Data 2", "Data 3"],
-          ["Data 1", "Data 2", "Data 3"],
-          ["Data 1", "Data 2", "Data 3"],
-          ["Data 1", "Data 2", "Data 3"],
-          ["Data 1", "Data 2", "Data 3"],
-          ["Data 1", "Data 2", "Data 3"],
-          ["Data 1", "Data 2", "Data 3"],
-          ["Data 1", "Data 2", "Data 3"],
-          ["Data 1", "Data 2", "Data 3"],
-          ["Data 1", "Data 2", "Data 3"],
-          ["Data 1", "Data 2", "Data 3"],
-          ["Data 1", "Data 2", "Data 3"],
-          ["Data 1", "Data 2", "Data 3"],
-          ["Data 1", "Data 2", "Data 3"],
-          ["Data 1", "Data 2", "Data 3"],
-          ["Data 1", "Data 2", "Data 3"],
-          ["Data 1", "Data 2", "Data 3"],
-          ["Data 1", "Data 2", "Data 3"],
-          ["Data 1", "Data 2", "Data 3"],
-          ["Data 1", "Data 2", "Data 3"],
-          ["Data 1", "Data 2", "Data 3"],
-          ["Data 1", "Data 2", "Data 3"],
-          ["Data 1", "Data 2", "Data 3"],
-          ["Data 1", "Data 2", "Data 3"],
-          ["Data 1", "Data 2", "Data 3"],
-          ["Data 1", "Data 2", "Data 3"],
-          ["Data 1", "Data 2", "Data 3"],
-          ["Data 1", "Data 2", "Data 3"],
-          ["Data 1", "Data 2", "Data 3"],
-          ["Data 1", "Data 2", "Data 3"],
-          ["Data 1", "Data 2", "Data 3"],
-          ["Data 1", "Data 2", "Data 3"],
-          ["Data 1", "Data 2", "Data 3"],
-          ["Data 1", "Data 2", "Data 3"],
-        ],
-      },
-    },
-    {
-      title: "Section 2",
-      table: {
-        headers: ["Header 1", "Header 2", "Header 3"],
-        data: [
-          ["Section 2 Data 1", "Data 2", "Data 3"],
-          ["Section 2 Data 1", "Data 2", "Data 3"],
-          ["Section 2 Data 1", "Data 2", "Data 3"],
-        ],
-      },
-    },
-  ],
-  footer: {
-    qrCode: "https://system.mahaintaj.com",
-    table: {
-      title: "Footer Table",
-      headers: ["Header 1", "Header 2", "Header 3"],
-      data: ["Data 1", "Data 2", "Data 3"],
-    },
-  },
-});
+// generateDocument({
+//   header: [
+//     {
+//       title: "Document Title",
+//       docMetaData: ["Date: 12-12-2021", "Author: John Doe"],
+//     },
+//     {
+//       rightMetaTable: [
+//         ["Right Meta 1", "Meta Data 1"],
+//         ["Right Meta 2", "Meta Data 2"],
+//       ],
+//       leftMetaTable: [
+//         ["Left Meta 1", "Meta Data 1"],
+//         ["Left Meta 2", "Meta Data 2"],
+//       ],
+//     },
+//   ],
+//   body: [
+//     {
+//       title: "Section 1",
+//       table: {
+//         headers: ["Header 1", "Header 2", "Header 3"],
+//         data: [
+//           ["Data 1", "Data 2", "Data 3"],
+//           ["Data 1", "Data 2", "Data 3"],
+//           ["Data 1", "Data 2", "Data 3"],
+//           ["Data 1", "Data 2", "Data 3"],
+//           ["Data 1", "Data 2", "Data 3"],
+//           ["Data 1", "Data 2", "Data 3"],
+//           ["Data 1", "Data 2", "Data 3"],
+//           ["Data 1", "Data 2", "Data 3"],
+//           ["Data 1", "Data 2", "Data 3"],
+//           ["Data 1", "Data 2", "Data 3"],
+//           ["Data 1", "Data 2", "Data 3"],
+//           ["Data 1", "Data 2", "Data 3"],
+//           ["Data 1", "Data 2", "Data 3"],
+//           ["Data 1", "Data 2", "Data 3"],
+//           ["Data 1", "Data 2", "Data 3"],
+//           ["Data 1", "Data 2", "Data 3"],
+//           ["Data 1", "Data 2", "Data 3"],
+//           ["Data 1", "Data 2", "Data 3"],
+//           ["Data 1", "Data 2", "Data 3"],
+//           ["Data 1", "Data 2", "Data 3"],
+//           ["Data 1", "Data 2", "Data 3"],
+//           ["Data 1", "Data 2", "Data 3"],
+//           ["Data 1", "Data 2", "Data 3"],
+//           ["Data 1", "Data 2", "Data 3"],
+//           ["Data 1", "Data 2", "Data 3"],
+//           ["Data 1", "Data 2", "Data 3"],
+//           ["Data 1", "Data 2", "Data 3"],
+//           ["Data 1", "Data 2", "Data 3"],
+//           ["Data 1", "Data 2", "Data 3"],
+//           ["Data 1", "Data 2", "Data 3"],
+//           ["Data 1", "Data 2", "Data 3"],
+//           ["Data 1", "Data 2", "Data 3"],
+//           ["Data 1", "Data 2", "Data 3"],
+//           ["Data 1", "Data 2", "Data 3"],
+//           ["Data 1", "Data 2", "Data 3"],
+//           ["Data 1", "Data 2", "Data 3"],
+//           ["Data 1", "Data 2", "Data 3"],
+//           ["Data 1", "Data 2", "Data 3"],
+//           ["Data 1", "Data 2", "Data 3"],
+//           ["Data 1", "Data 2", "Data 3"],
+//           ["Data 1", "Data 2", "Data 3"],
+//           ["Data 1", "Data 2", "Data 3"],
+//           ["Data 1", "Data 2", "Data 3"],
+//           ["Data 1", "Data 2", "Data 3"],
+//           ["Data 1", "Data 2", "Data 3"],
+//           ["Data 1", "Data 2", "Data 3"],
+//           ["Data 1", "Data 2", "Data 3"],
+//           ["Data 1", "Data 2", "Data 3"],
+//         ],
+//       },
+//     },
+//     {
+//       title: "Section 2",
+//       table: {
+//         headers: ["Header 1", "Header 2", "Header 3"],
+//         data: [
+//           ["Section 2 Data 1", "Data 2", "Data 3"],
+//           ["Section 2 Data 1", "Data 2", "Data 3"],
+//           ["Section 2 Data 1", "Data 2", "Data 3"],
+//         ],
+//       },
+//     },
+//   ],
+//   footer: {
+//     qrCode: "https://system.mahaintaj.com",
+//     table: {
+//       title: "Footer Table",
+//       headers: ["Header 1", "Header 2", "Header 3"],
+//       data: ["Data 1", "Data 2", "Data 3"],
+//     },
+//   },
+// });

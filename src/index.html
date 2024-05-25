@@ -10,4 +10,50 @@
     <div id="container"></div>
   </body>
   <script src="./script.js"></script>
+  <script>
+    generateDocument({
+      header: [
+        {
+          title: "Sortie de stock",
+          docMetaData: ["test"],
+        },
+        {
+          rightMetaTable: [
+            ["Ferme", "IFRIANE"],
+            ["Dépôt", "STOCK CENTRALE"],
+            ["Observation", "test"],
+            ["Parcels", ""],
+          ],
+          leftMetaTable: [
+            ["Date", "2024-05-23T00:00:00.000000Z"],
+            ["Référence", "SS2400001"],
+            ["Total", 63],
+          ],
+        },
+      ],
+      body: [
+        {
+          title: "Détails",
+          table: {
+            columns: [
+              { title: "Parcelle", key: "parcel" },
+              { title: "Produit", key: "product" },
+              { title: "Quantité", key: "quantity" },
+              { title: "Emballage", key: "packaging" },
+              { title: "Coût", key: "cost" },
+            ],
+            data: [
+              {
+                cost: 63,
+                quantity: 5,
+                packaging: "1  KG",
+                product: "ACIDE NITRIQUE",
+              },
+            ],
+          },
+        },
+      ],
+      footer: { qrCode: "SS2400001" },
+    });
+  </script>
 </html>

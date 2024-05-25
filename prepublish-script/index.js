@@ -56,7 +56,9 @@ module.exports = ({
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>GS-MAHA-GAPP-PDF-MAKER</title> 
-        ${style}
+        <style>
+          ${style}
+        </style>
       </head>
       <body>
         <div id="container"></div>
