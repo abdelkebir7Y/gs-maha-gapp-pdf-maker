@@ -70,32 +70,36 @@ const generateFooter = ({
     data: [""],
   },
 }) => {
+  const footerTable = `
+    <div class="table-container" >
+      <h2>${table.title} :</h2>
+      <table>
+        <thead>
+          <tr>
+            ${table.headers
+              .map((header) => {
+                return `<th>${header}</th>`;
+              })
+              .join(" ")}
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            ${table.data
+              .map((data) => {
+                return `<td>${data}</td>`;
+              })
+              .join(" ")}
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  `;
+
   const docFooter = `
     <footer>
       <div class="bottomSection">
-        <div class="table-container" >
-          <h2>${table.title} :</h2>
-          <table>
-            <thead>
-              <tr>
-                ${table.headers
-                  .map((header) => {
-                    return `<th>${header}</th>`;
-                  })
-                  .join(" ")}
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                ${table.data
-                  .map((data) => {
-                    return `<td>${data}</td>`;
-                  })
-                  .join(" ")}
-              </tr>
-            </tbody>
-          </table>
-        </div>
+        ${table.title ? footerTable : '<div class="table-container"></div>'}
         <div class="qrCode">
           <img alt="" src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=${qrCode}" />
         </div>
@@ -112,6 +116,7 @@ const generateSection = ({
       {
         key: "",
         title: "",
+        id: "",
       },
     ],
     data: [{}],
@@ -137,7 +142,7 @@ const generateSection = ({
                 <tr>
                   ${table.columns
                     .map((column) => {
-                      return `<td>${row[column.key]}</td>`;
+                      return `<td id="${column.id}">${row[column.key]}</td>`;
                     })
                     .join(" ")}
                 </tr>
@@ -151,7 +156,7 @@ const generateSection = ({
   return docSection;
 };
 
-const pagesFormatter = () => {
+export const pagesFormatter = () => {
   const container = document.querySelector("#container");
   const children = container.children;
 
@@ -208,10 +213,9 @@ const pagesFormatter = () => {
     page.appendChild(cloneElement(child));
   };
 
-  let extendedParents = [];
+  var extendedParents = pages;
 
   const generatePages = (parents, children, minHeight) => {
-    extendedParents = [...parents];
     for (let i = 0; i < children.length; i++) {
       const child = children[i];
       const childHeight = getAbsoluteHeight(child);
@@ -248,11 +252,8 @@ const pagesFormatter = () => {
           pageRestHeight -= getElementMargin(child);
 
           extendedParents[extendedParents.length - 1].appendChild(childClone);
-          generatePages(
-            [...extendedParents, childClone],
-            elementChildren,
-            minHeight
-          );
+          extendedParents.push(childClone);
+          generatePages(extendedParents, elementChildren, minHeight);
           extendedParents.pop();
         }
       }
@@ -277,7 +278,7 @@ const pagesFormatter = () => {
   });
 };
 
-const generateDocument = ({
+export const generateDocument = ({
   header = [
     {
       title: "",
@@ -321,99 +322,3 @@ const generateDocument = ({
   container.innerHTML = docHeader + " " + docBody + " " + docFooter;
   pagesFormatter();
 };
-
-// generateDocument({
-//   header: [
-//     {
-//       title: "Document Title",
-//       docMetaData: ["Date: 12-12-2021", "Author: John Doe"],
-//     },
-//     {
-//       rightMetaTable: [
-//         ["Right Meta 1", "Meta Data 1"],
-//         ["Right Meta 2", "Meta Data 2"],
-//       ],
-//       leftMetaTable: [
-//         ["Left Meta 1", "Meta Data 1"],
-//         ["Left Meta 2", "Meta Data 2"],
-//       ],
-//     },
-//   ],
-//   body: [
-//     {
-//       title: "Section 1",
-//       table: {
-//         headers: ["Header 1", "Header 2", "Header 3"],
-//         data: [
-//           ["Data 1", "Data 2", "Data 3"],
-//           ["Data 1", "Data 2", "Data 3"],
-//           ["Data 1", "Data 2", "Data 3"],
-//           ["Data 1", "Data 2", "Data 3"],
-//           ["Data 1", "Data 2", "Data 3"],
-//           ["Data 1", "Data 2", "Data 3"],
-//           ["Data 1", "Data 2", "Data 3"],
-//           ["Data 1", "Data 2", "Data 3"],
-//           ["Data 1", "Data 2", "Data 3"],
-//           ["Data 1", "Data 2", "Data 3"],
-//           ["Data 1", "Data 2", "Data 3"],
-//           ["Data 1", "Data 2", "Data 3"],
-//           ["Data 1", "Data 2", "Data 3"],
-//           ["Data 1", "Data 2", "Data 3"],
-//           ["Data 1", "Data 2", "Data 3"],
-//           ["Data 1", "Data 2", "Data 3"],
-//           ["Data 1", "Data 2", "Data 3"],
-//           ["Data 1", "Data 2", "Data 3"],
-//           ["Data 1", "Data 2", "Data 3"],
-//           ["Data 1", "Data 2", "Data 3"],
-//           ["Data 1", "Data 2", "Data 3"],
-//           ["Data 1", "Data 2", "Data 3"],
-//           ["Data 1", "Data 2", "Data 3"],
-//           ["Data 1", "Data 2", "Data 3"],
-//           ["Data 1", "Data 2", "Data 3"],
-//           ["Data 1", "Data 2", "Data 3"],
-//           ["Data 1", "Data 2", "Data 3"],
-//           ["Data 1", "Data 2", "Data 3"],
-//           ["Data 1", "Data 2", "Data 3"],
-//           ["Data 1", "Data 2", "Data 3"],
-//           ["Data 1", "Data 2", "Data 3"],
-//           ["Data 1", "Data 2", "Data 3"],
-//           ["Data 1", "Data 2", "Data 3"],
-//           ["Data 1", "Data 2", "Data 3"],
-//           ["Data 1", "Data 2", "Data 3"],
-//           ["Data 1", "Data 2", "Data 3"],
-//           ["Data 1", "Data 2", "Data 3"],
-//           ["Data 1", "Data 2", "Data 3"],
-//           ["Data 1", "Data 2", "Data 3"],
-//           ["Data 1", "Data 2", "Data 3"],
-//           ["Data 1", "Data 2", "Data 3"],
-//           ["Data 1", "Data 2", "Data 3"],
-//           ["Data 1", "Data 2", "Data 3"],
-//           ["Data 1", "Data 2", "Data 3"],
-//           ["Data 1", "Data 2", "Data 3"],
-//           ["Data 1", "Data 2", "Data 3"],
-//           ["Data 1", "Data 2", "Data 3"],
-//           ["Data 1", "Data 2", "Data 3"],
-//         ],
-//       },
-//     },
-//     {
-//       title: "Section 2",
-//       table: {
-//         headers: ["Header 1", "Header 2", "Header 3"],
-//         data: [
-//           ["Section 2 Data 1", "Data 2", "Data 3"],
-//           ["Section 2 Data 1", "Data 2", "Data 3"],
-//           ["Section 2 Data 1", "Data 2", "Data 3"],
-//         ],
-//       },
-//     },
-//   ],
-//   footer: {
-//     qrCode: "https://system.mahaintaj.com",
-//     table: {
-//       title: "Footer Table",
-//       headers: ["Header 1", "Header 2", "Header 3"],
-//       data: ["Data 1", "Data 2", "Data 3"],
-//     },
-//   },
-// });

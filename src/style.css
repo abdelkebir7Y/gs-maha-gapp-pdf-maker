@@ -131,11 +131,11 @@ header .section {
   padding: 8px;
 }
 header .section.right {
-  height: 80%;
-  padding: 0px;
+  height: 100%;
+  padding: 6px 0px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: space-around;
 }
 
 header .section.large {
@@ -161,6 +161,7 @@ header img {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  align-items: flex-start;
   width: 100%;
 }
 

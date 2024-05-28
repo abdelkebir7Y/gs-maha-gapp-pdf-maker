@@ -1,26 +1,21 @@
-const fs = require("fs");
-const path = require("path");
+import fs from "fs";
+import path from "path";
 
-const script = fs.readFileSync(
-  path.resolve(__dirname, "../src/script.js"),
-  "utf8"
-);
+import {
+  generateHeader,
+  generateFooter,
+  generateSection,
+  pagesFormatter,
+  generateDocument,
+} from "../src/script.js";
 
-const html = fs.readFileSync(
-  path.resolve(__dirname, "../src/index.html"),
-  "utf8"
-);
-const style = fs.readFileSync(
-  path.resolve(__dirname, "../src/style.css"),
-  "utf8"
-);
+const style = fs.readFileSync(path.resolve("./src/style.css"), "utf8");
 
 fs.writeFileSync(
-  path.resolve(__dirname, "../index.js"),
+  path.resolve("./index.js"),
   `
-${script}
 
-module.exports = ({
+export default main =  ({
   header = [
     {
       title: "",
@@ -49,6 +44,8 @@ module.exports = ({
     },
   },
 }) => {
+
+
   return \`
     <!DOCTYPE html>
     <html lang="en">
@@ -65,11 +62,21 @@ module.exports = ({
       </body>
       <script>
         //script here
-        const generateHeader = \${generateHeader.toString()}
-        const generateFooter = \${generateFooter.toString()}
-        const generateSection = \${generateSection.toString()}
-        const pagesFormatter = \${pagesFormatter.toString()}
-        const generateDocument = \${generateDocument.toString()}
+        const generateHeader = ${generateHeader
+          .toString()
+          .replaceAll("`", ' `+ "`" + `')}
+        const generateFooter = ${generateFooter
+          .toString()
+          .replaceAll("`", ' `+ "`" + `')}
+        const generateSection = ${generateSection
+          .toString()
+          .replaceAll("`", ' `+ "`" + `')}
+        const pagesFormatter = ${pagesFormatter
+          .toString()
+          .replaceAll("`", ' `+ "`" + `')}
+        const generateDocument = ${generateDocument
+          .toString()
+          .replaceAll("`", ' `+ "`" + `')}
 
         generateDocument({
           header: \${JSON.stringify(header)},

@@ -9,8 +9,8 @@
   <body>
     <div id="container"></div>
   </body>
-  <script src="./script.js"></script>
-  <script>
+  <script type="module">
+    import { generateDocument } from "./script.js";
     generateDocument({
       header: [
         {
@@ -25,9 +25,8 @@
             ["Parcels", ""],
           ],
           leftMetaTable: [
-            ["Date", "2024-05-23T00:00:00.000000Z"],
+            ["Date", "2024-05-23"],
             ["Référence", "SS2400001"],
-            ["Total", 63],
           ],
         },
       ],
